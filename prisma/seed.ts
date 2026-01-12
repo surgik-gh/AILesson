@@ -1,3 +1,9 @@
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// Load environment variables from .env file
+config({ path: resolve(__dirname, '../.env') });
+
 import { prisma } from '../lib/db/prisma';
 import * as bcrypt from 'bcryptjs';
 
