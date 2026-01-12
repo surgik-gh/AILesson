@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { getServerSession } from "next-auth";
+import { auth } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth/auth.config";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   // Если пользователь авторизован, перенаправляем на его дашборд
   if (session?.user) {
