@@ -1,0 +1,263 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                String              @id @default(cuid())
+  email             String              @unique
+  password          String
+  name              String
+  role              Role                @default(STUDENT)
+  wisdomCoins       Int                 @default(0)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  selectedExpert    Expert?             @relation("UserSelectedExpert", fields: [selectedExpertId], references: [id])
+  selectedExpertId  String?
+  
+  ownedExperts      Expert[]            @relation("UserOwnedExperts")
+  lessons           Lesson[]
+  quizAttempts      QuizAttempt[]
+  userAnswers       UserAnswer[]
+  achievements      UserAchievement[]
+  transactions      TokenTransaction[]
+  chatMessages      ChatMessage[]
+  leaderboardEntry  LeaderboardEntry?
+  settings          UserSettings?
+  sentLessons       SentLesson[]        @relation("TeacherSentLessons")
+  receivedLessons   SentLesson[]        @relation("StudentReceivedLessons")
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+model Expert {
+  id                String        @id @default(cuid())
+  name              String
+  personality       String        @db.Text
+  communicationStyle String       @db.Text
+  appearance        String        // Reference to 3D model
+  createdAt         DateTime      @default(now())
+  
+  owner             User          @relation("UserOwnedExperts", fields: [ownerId], references: [id])
+  ownerId           String
+  
+  usersUsingThis    User[]        @relation("UserSelectedExpert")
+  chatMessages      ChatMessage[]
+}
+
+model Subject {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  icon        String?   // Icon name or emoji
+  createdAt   DateTime  @default(now())
+  
+  lessons     Lesson[]
+}
+
+model Lesson {
+  id          String    @id @default(cuid())
+  title       String
+  content     String    @db.Text
+  keyPoints   String[]
+  difficulty  Difficulty @default(BEGINNER)
+  createdAt   DateTime  @default(now())
+  
+  subject     Subject   @relation(fields: [subjectId], references: [id])
+  subjectId   String
+  
+  creator     User      @relation(fields: [creatorId], references: [id])
+  creatorId   String
+  
+  quiz        Quiz?
+  sentTo      SentLesson[]
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model SentLesson {
+  id          String    @id @default(cuid())
+  sentAt      DateTime  @default(now())
+  
+  lesson      Lesson    @relation(fields: [lessonId], references: [id])
+  lessonId    String
+  
+  teacher     User      @relation("TeacherSentLessons", fields: [teacherId], references: [id])
+  teacherId   String
+  
+  student     User      @relation("StudentReceivedLessons", fields: [studentId], references: [id])
+  studentId   String
+  
+  @@unique([lessonId, studentId])
+}
+
+model Quiz {
+  id          String        @id @default(cuid())
+  createdAt   DateTime      @default(now())
+  
+  lesson      Lesson        @relation(fields: [lessonId], references: [id])
+  lessonId    String        @unique
+  
+  questions   Question[]
+  attempts    QuizAttempt[]
+}
+
+model Question {
+  id          String        @id @default(cuid())
+  type        QuestionType
+  text        String        @db.Text
+  correctAnswer Json        // Stores correct answer(s)
+  options     Json?         // For single/multiple choice
+  order       Int
+  
+  quiz        Quiz          @relation(fields: [quizId], references: [id])
+  quizId      String
+  
+  userAnswers UserAnswer[]
+}
+
+enum QuestionType {
+  TEXT
+  SINGLE
+  MULTIPLE
+}
+
+model QuizAttempt {
+  id          String    @id @default(cuid())
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  score       Int       @default(0)
+  isPerfect   Boolean   @default(false)
+  
+  quiz        Quiz      @relation(fields: [quizId], references: [id])
+  quizId      String
+  
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  
+  answers     UserAnswer[]
+}
+
+model UserAnswer {
+  id          String    @id @default(cuid())
+  answer      Json
+  isCorrect   Boolean
+  answeredAt  DateTime  @default(now())
+  
+  question    Question  @relation(fields: [questionId], references: [id])
+  questionId  String
+  
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  
+  attempt     QuizAttempt @relation(fields: [attemptId], references: [id])
+  attemptId   String
+}
+
+model Achievement {
+  id          String              @id @default(cuid())
+  name        String              @unique
+  description String
+  condition   AchievementCondition
+  icon        String
+  
+  users       UserAchievement[]
+}
+
+enum AchievementCondition {
+  FIRST_QUIZ
+  PERFECT_QUIZ
+  TEN_QUIZZES
+  FIFTY_QUIZZES
+  HUNDRED_QUIZZES
+  DAILY_STREAK_7
+  DAILY_STREAK_30
+}
+
+model UserAchievement {
+  id          String      @id @default(cuid())
+  earnedAt    DateTime    @default(now())
+  
+  user        User        @relation(fields: [userId], references: [id])
+  userId      String
+  
+  achievement Achievement @relation(fields: [achievementId], references: [id])
+  achievementId String
+  
+  @@unique([userId, achievementId])
+}
+
+model LeaderboardEntry {
+  id              String    @id @default(cuid())
+  score           Int       @default(0)
+  quizCount       Int       @default(0)
+  correctAnswers  Int       @default(0)
+  totalAnswers    Int       @default(0)
+  lastResetAt     DateTime  @default(now())
+  
+  user            User      @relation(fields: [userId], references: [id])
+  userId          String    @unique
+}
+
+model TokenTransaction {
+  id          String            @id @default(cuid())
+  amount      Int
+  type        TransactionType
+  description String?
+  createdAt   DateTime          @default(now())
+  
+  user        User              @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+enum TransactionType {
+  INITIAL
+  DAILY
+  LESSON_COST
+  ANSWER_REWARD
+  CHAT_COST
+  ADMIN_GRANT
+  LEADERBOARD_REWARD
+}
+
+model ChatMessage {
+  id          String    @id @default(cuid())
+  content     String    @db.Text
+  isFromUser  Boolean
+  createdAt   DateTime  @default(now())
+  
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  
+  expert      Expert    @relation(fields: [expertId], references: [id])
+  expertId    String
+}
+
+model UserSettings {
+  id          String    @id @default(cuid())
+  theme       Theme     @default(BASIC)
+  
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String    @unique
+}
+
+enum Theme {
+  LIGHT
+  DARK
+  BASIC
+}
