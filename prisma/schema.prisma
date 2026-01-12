@@ -49,8 +49,8 @@ model Expert {
   appearance        String        // Reference to 3D model
   createdAt         DateTime      @default(now())
   
-  owner             User          @relation("UserOwnedExperts", fields: [ownerId], references: [id])
-  ownerId           String
+  owner             User?         @relation("UserOwnedExperts", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId           String?
   
   usersUsingThis    User[]        @relation("UserSelectedExpert")
   chatMessages      ChatMessage[]
