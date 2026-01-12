@@ -5,9 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface LessonDetailPageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 export default async function LessonDetailPage({ params }: LessonDetailPageProps) {
@@ -21,10 +19,12 @@ export default async function LessonDetailPage({ params }: LessonDetailPageProps
     redirect("/login");
   }
 
+  const { id } = await params;
+
   // Fetch the lesson with all related data
   const lesson = await prisma.lesson.findUnique({
     where: {
-      id: params.id,
+      id: id,
     },
     include: {
       subject: true,
