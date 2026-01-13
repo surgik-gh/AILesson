@@ -134,13 +134,13 @@ export default function AchievementsPage() {
                 <div className="flex items-start">
                   <div className="text-5xl mr-4">{achievement.icon}</div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">
+                    <h3 className="text-lg font-bold text-gray-800 mb-1">
                       {achievement.name}
                     </h3>
-                    <p className="text-sm text-gray-700 mb-2">
+                    <p className="text-sm text-gray-600 mb-2">
                       {achievement.description}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-400">
                       Earned on{' '}
                       {achievement.earnedAt
                         ? new Date(achievement.earnedAt).toLocaleDateString()
@@ -178,17 +178,17 @@ export default function AchievementsPage() {
                 <div className="flex items-start">
                   <div className="text-5xl mr-4 grayscale">{achievement.icon}</div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-bold text-gray-700 mb-1">
+                    <h3 className="text-lg font-bold text-gray-600 mb-1">
                       {achievement.name}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-3">
+                    <p className="text-sm text-gray-500 mb-3">
                       {achievement.description}
                     </p>
                     
                     {/* Progress Bar */}
                     {achievement.total > 0 && (
                       <div>
-                        <div className="flex justify-between text-xs text-gray-500 mb-1">
+                        <div className="flex justify-between text-xs text-gray-400 mb-1">
                           <span>Progress</span>
                           <span>
                             {achievement.progress} / {achievement.total}
