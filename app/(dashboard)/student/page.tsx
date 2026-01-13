@@ -132,7 +132,7 @@ export default async function StudentDashboard() {
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Quick Actions */}
         <section className="mb-8">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             <Link
               href="/student/lessons"
               className="group flex items-center gap-4 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]"
@@ -141,6 +141,17 @@ export default async function StudentDashboard() {
               <div>
                 <h3 className="font-semibold">Уроки</h3>
                 <p className="text-sm text-blue-100">Изучать материалы</p>
+              </div>
+            </Link>
+
+            <Link
+              href="/student/create-lesson"
+              className="group flex items-center gap-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 p-6 text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02]"
+            >
+              <div className="rounded-xl bg-white/20 p-3 text-3xl">✏️</div>
+              <div>
+                <h3 className="font-semibold">Создать урок</h3>
+                <p className="text-sm text-indigo-100">AI-генерация</p>
               </div>
             </Link>
 

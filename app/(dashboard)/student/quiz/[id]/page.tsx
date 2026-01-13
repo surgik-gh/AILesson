@@ -58,30 +58,30 @@ export default function QuizStartPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <div className="bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          Ready to Start Quiz?
+      <div className="bg-white rounded-lg shadow-lg p-8 dark:bg-gray-800">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Готовы начать квиз?
         </h1>
         
         <div className="mb-6">
-          <p className="text-gray-600 mb-4">
-            This quiz will test your knowledge on the lesson material.
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            Этот квиз проверит ваши знания по материалу урока.
           </p>
           
-          <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-4">
-            <h2 className="font-semibold text-indigo-900 mb-2">Quiz Rules:</h2>
-            <ul className="list-disc list-inside text-indigo-800 space-y-1">
-              <li>Answer all questions to complete the quiz</li>
-              <li>Earn +2 Wisdom Coins for each correct answer</li>
-              <li>Get +50 bonus points for a perfect score</li>
-              <li>Your leaderboard score will be updated</li>
+          <div className="bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 rounded-lg p-4 mb-4">
+            <h2 className="font-semibold text-indigo-900 dark:text-indigo-200 mb-2">Правила квиза:</h2>
+            <ul className="list-disc list-inside text-indigo-800 dark:text-indigo-300 space-y-1">
+              <li>Ответьте на все вопросы для завершения квиза</li>
+              <li>Получите +2 монеты мудрости за каждый правильный ответ</li>
+              <li>Бонус +50 очков за идеальный результат</li>
+              <li>Ваш рейтинг в таблице лидеров будет обновлён</li>
             </ul>
           </div>
         </div>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-800">{error}</p>
+          <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+            <p className="text-red-800 dark:text-red-300">{error}</p>
           </div>
         )}
 
@@ -91,15 +91,15 @@ export default function QuizStartPage() {
             disabled={loading}
             className="flex-1 bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? 'Starting...' : 'Start Quiz'}
+            {loading ? 'Запуск...' : 'Начать квиз'}
           </button>
           
           <button
             onClick={() => router.back()}
             disabled={loading}
-            className="px-6 py-3 border border-gray-300 rounded-lg font-semibold hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            Cancel
+            Отмена
           </button>
         </div>
       </div>

@@ -4,7 +4,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       id: string;
-      role: "STUDENT" | "TEACHER" | "ADMIN";
+      role: "STUDENT" | "TEACHER" | "PARENT" | "ADMIN";
       wisdomCoins: number;
       selectedExpertId?: string;
     } & DefaultSession["user"];
@@ -14,7 +14,7 @@ declare module "next-auth" {
     id: string;
     email: string;
     name: string;
-    role: "STUDENT" | "TEACHER" | "ADMIN";
+    role: "STUDENT" | "TEACHER" | "PARENT" | "ADMIN";
     wisdomCoins: number;
     selectedExpertId?: string;
   }
@@ -23,7 +23,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
-    role: "STUDENT" | "TEACHER" | "ADMIN";
+    role: "STUDENT" | "TEACHER" | "PARENT" | "ADMIN";
     wisdomCoins: number;
     selectedExpertId?: string;
   }

@@ -55,6 +55,9 @@ export async function registerUser(
       case "TEACHER":
         wisdomCoins = 250;
         break;
+      case "PARENT":
+        wisdomCoins = 100;
+        break;
       case "ADMIN":
         wisdomCoins = 999999; // Unlimited represented as large number
         break;

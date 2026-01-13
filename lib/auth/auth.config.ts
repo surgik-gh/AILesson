@@ -60,7 +60,7 @@ export const authConfig = {
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
-        session.user.role = token.role as "STUDENT" | "TEACHER" | "ADMIN";
+        session.user.role = token.role as "STUDENT" | "TEACHER" | "PARENT" | "ADMIN";
         session.user.wisdomCoins = token.wisdomCoins as number;
         session.user.selectedExpertId = token.selectedExpertId as string | undefined;
       }

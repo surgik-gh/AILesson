@@ -33,11 +33,14 @@ model User {
   settings          UserSettings?
   sentLessons       SentLesson[]        @relation("TeacherSentLessons")
   receivedLessons   SentLesson[]        @relation("StudentReceivedLessons")
+  readingMaterials  ReadingMaterial[]   @relation("TeacherReadingMaterials")
+  readingAssignments ReadingAssignment[] @relation("StudentReadingAssignments")
 }
 
 enum Role {
   STUDENT
   TEACHER
+  PARENT
   ADMIN
 }
 
@@ -254,6 +257,47 @@ model UserSettings {
   
   user        User      @relation(fields: [userId], references: [id])
   userId      String    @unique
+}
+
+model ReadingMaterial {
+  id          String              @id @default(cuid())
+  title       String
+  description String?             @db.Text
+  content     String?             @db.Text
+  url         String?
+  category    ReadingCategory
+  dueDate     DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  
+  teacher     User                @relation("TeacherReadingMaterials", fields: [teacherId], references: [id])
+  teacherId   String
+  
+  assignedTo  ReadingAssignment[]
+}
+
+model ReadingAssignment {
+  id          String          @id @default(cuid())
+  assignedAt  DateTime        @default(now())
+  completedAt DateTime?
+  
+  material    ReadingMaterial @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  materialId  String
+  
+  student     User            @relation("StudentReadingAssignments", fields: [studentId], references: [id])
+  studentId   String
+  
+  @@unique([materialId, studentId])
+}
+
+enum ReadingCategory {
+  DAILY
+  WEEKLY
+  VACATION
+  POETRY
+  PROSE
+  HOMEWORK
+  EXTRA
 }
 
 enum Theme {

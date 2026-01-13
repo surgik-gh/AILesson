@@ -133,9 +133,9 @@ export default function CreateLessonPage() {
       setUploadedFile(null);
       setUploadProgress(0);
 
-      // Redirect to lesson page after 2 seconds
+      // Redirect to teacher lessons page after 2 seconds
       setTimeout(() => {
-        router.push(`/lessons/${data.lessonId}`);
+        router.push(`/teacher/lessons`);
       }, 2000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create lesson');

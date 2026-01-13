@@ -42,10 +42,10 @@ export default function RegisterPage() {
       <div className="w-full max-w-md space-y-8 rounded-2xl bg-white p-8 shadow-2xl dark:bg-gray-800">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Create your account
+            Создать аккаунт
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Join AILesson and start your learning journey
+            Присоединяйтесь к AILesson и начните обучение
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export default function RegisterPage() {
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Full Name
+                Полное имя
               </label>
               <input
                 id="name"
@@ -83,7 +83,7 @@ export default function RegisterPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Email address
+                Email
               </label>
               <input
                 id="email"
@@ -104,7 +104,7 @@ export default function RegisterPage() {
                 htmlFor="password"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Password
+                Пароль
               </label>
               <input
                 id="password"
@@ -120,7 +120,7 @@ export default function RegisterPage() {
                 minLength={8}
               />
               <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                Must be at least 8 characters
+                Минимум 8 символов
               </p>
             </div>
 
@@ -129,7 +129,7 @@ export default function RegisterPage() {
                 htmlFor="role"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                I am a...
+                Я...
               </label>
               <select
                 id="role"
@@ -140,9 +140,9 @@ export default function RegisterPage() {
                 }
                 className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               >
-                <option value="STUDENT">Student (150 Wisdom Coins)</option>
-                <option value="TEACHER">Teacher (250 Wisdom Coins)</option>
-                <option value="ADMIN">Admin (Unlimited Coins)</option>
+                <option value="STUDENT">Ученик</option>
+                <option value="TEACHER">Учитель</option>
+                <option value="PARENT">Родитель</option>
               </select>
             </div>
           </div>
@@ -152,18 +152,18 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full rounded-lg bg-indigo-600 px-4 py-3 font-semibold text-white shadow-lg transition-all hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-indigo-500 dark:hover:bg-indigo-600"
           >
-            {loading ? "Creating account..." : "Create account"}
+            {loading ? "Создание аккаунта..." : "Создать аккаунт"}
           </button>
 
           <div className="text-center text-sm">
             <span className="text-gray-600 dark:text-gray-400">
-              Already have an account?{" "}
+              Уже есть аккаунт?{" "}
             </span>
             <a
               href="/login"
               className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
             >
-              Sign in
+              Войти
             </a>
           </div>
         </form>

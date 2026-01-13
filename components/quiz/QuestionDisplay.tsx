@@ -9,7 +9,7 @@ export interface Question {
   id: string;
   type: QuestionType;
   text: string;
-  options?: string[];
+  options?: any[];
   order: number;
 }
 
@@ -46,7 +46,7 @@ export function QuestionDisplay({
     }
 
     if (finalAnswer === null || finalAnswer === '' || (Array.isArray(finalAnswer) && finalAnswer.length === 0)) {
-      alert('Please provide an answer before submitting');
+      alert('Пожалуйста, дайте ответ перед отправкой');
       return;
     }
 
@@ -120,13 +120,13 @@ export function QuestionDisplay({
     <div className="bg-white rounded-lg shadow-lg p-8" role="region" aria-labelledby="question-heading">
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-sm font-medium text-indigo-600" aria-label={`Question ${questionNumber} of ${totalQuestions}`}>
-            Question {questionNumber} of {totalQuestions}
+          <span className="text-sm font-medium text-indigo-600" aria-label={`Вопрос ${questionNumber} из ${totalQuestions}`}>
+            Вопрос {questionNumber} из {totalQuestions}
           </span>
-          <span className="text-sm text-gray-500" aria-label={`Question type: ${question.type === 'TEXT' ? 'Text Answer' : question.type === 'SINGLE' ? 'Single Choice' : 'Multiple Choice'}`}>
-            {question.type === 'TEXT' && 'Text Answer'}
-            {question.type === 'SINGLE' && 'Single Choice'}
-            {question.type === 'MULTIPLE' && 'Multiple Choice'}
+          <span className="text-sm text-gray-500" aria-label={`Тип вопроса: ${question.type === 'TEXT' ? 'Текстовый ответ' : question.type === 'SINGLE' ? 'Один вариант' : 'Несколько вариантов'}`}>
+            {question.type === 'TEXT' && 'Текстовый ответ'}
+            {question.type === 'SINGLE' && 'Один вариант'}
+            {question.type === 'MULTIPLE' && 'Несколько вариантов'}
           </span>
         </div>
         
@@ -139,28 +139,28 @@ export function QuestionDisplay({
         {question.type === 'TEXT' && (
           <div>
             <label htmlFor={`answer-${question.id}`} className="sr-only">
-              Your answer
+              Ваш ответ
             </label>
             <textarea
               id={`answer-${question.id}`}
               value={textAnswer}
               onChange={(e) => setTextAnswer(e.target.value)}
-              placeholder="Type your answer here..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+              placeholder="Введите ваш ответ здесь..."
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               rows={4}
               disabled={isSubmitting}
               aria-required="true"
               aria-describedby="text-answer-description"
             />
             <span id="text-answer-description" className="sr-only">
-              Enter your text answer in the field above
+              Введите текстовый ответ в поле выше
             </span>
           </div>
         )}
 
-        {question.type === 'SINGLE' && question.options && (
+        {question.type === 'SINGLE' && question.options && Array.isArray(question.options) && (
           <fieldset>
-            <legend className="sr-only">Select one answer (use arrow keys to navigate, Enter or Space to select)</legend>
+            <legend className="sr-only">Выберите один ответ (используйте стрелки для навигации, Enter или Пробел для выбора)</legend>
             <div className="space-y-3" role="radiogroup" aria-labelledby="question-heading">
               {question.options.map((option, index) => (
                 <button
@@ -171,7 +171,7 @@ export function QuestionDisplay({
                   disabled={isSubmitting}
                   role="radio"
                   aria-checked={answer === index}
-                  aria-label={option}
+                  aria-label={String(option)}
                   tabIndex={index === focusedOptionIndex ? 0 : -1}
                   className={`w-full text-left px-6 py-4 rounded-lg border-2 transition-all ${
                     answer === index
@@ -192,7 +192,7 @@ export function QuestionDisplay({
                         <div className="w-2 h-2 bg-white rounded-full"></div>
                       )}
                     </div>
-                    <span className="text-gray-900">{option}</span>
+                    <span className="text-gray-900">{String(option)}</span>
                   </div>
                 </button>
               ))}
@@ -200,9 +200,9 @@ export function QuestionDisplay({
           </fieldset>
         )}
 
-        {question.type === 'MULTIPLE' && question.options && (
+        {question.type === 'MULTIPLE' && question.options && Array.isArray(question.options) && (
           <fieldset>
-            <legend className="sr-only">Select all that apply (use arrow keys to navigate, Enter or Space to toggle)</legend>
+            <legend className="sr-only">Выберите все подходящие варианты (используйте стрелки для навигации, Enter или Пробел для переключения)</legend>
             <div className="space-y-3" role="group" aria-labelledby="question-heading">
               {question.options.map((option, index) => (
                 <button
@@ -213,7 +213,7 @@ export function QuestionDisplay({
                   disabled={isSubmitting}
                   role="checkbox"
                   aria-checked={selectedOptions.has(index)}
-                  aria-label={option}
+                  aria-label={String(option)}
                   tabIndex={index === focusedOptionIndex ? 0 : -1}
                   className={`w-full text-left px-6 py-4 rounded-lg border-2 transition-all ${
                     selectedOptions.has(index)
@@ -244,7 +244,7 @@ export function QuestionDisplay({
                         </svg>
                       )}
                     </div>
-                    <span className="text-gray-900">{option}</span>
+                    <span className="text-gray-900">{String(option)}</span>
                   </div>
                 </button>
               ))}
@@ -260,10 +260,10 @@ export function QuestionDisplay({
         className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         aria-busy={isSubmitting}
       >
-        {isSubmitting ? 'Submitting...' : 'Submit Answer'}
+        {isSubmitting ? 'Отправка...' : 'Отправить ответ'}
       </button>
       <p className="text-xs text-gray-500 mt-2 text-center">
-        Press Enter to submit
+        Нажмите Enter для отправки
       </p>
     </div>
   );

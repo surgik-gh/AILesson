@@ -130,10 +130,10 @@ export default function QuizAttemptPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading quiz...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Загрузка квиза...</p>
         </div>
       </div>
     );
@@ -142,14 +142,14 @@ export default function QuizAttemptPage() {
   if (error || !attempt) {
     return (
       <div className="max-w-2xl mx-auto p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-          <h2 className="text-xl font-bold text-red-900 mb-2">Error</h2>
-          <p className="text-red-800">{error || 'Quiz not found'}</p>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 dark:bg-red-900/20 dark:border-red-800">
+          <h2 className="text-xl font-bold text-red-900 dark:text-red-200 mb-2">Ошибка</h2>
+          <p className="text-red-800 dark:text-red-300">{error || 'Квиз не найден'}</p>
           <button
             onClick={() => router.back()}
             className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
           >
-            Go Back
+            Назад
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import { ToastProvider } from "@/lib/contexts/ToastContext";
 import { ToastContainer } from "@/components/ui/ToastContainer";
 import { SessionProvider } from "@/lib/providers/SessionProvider";
