@@ -22,18 +22,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateLes
     const session = await auth();
     if (!session?.user) {
       return NextResponse.json(
-        { success: false, error: 'Unauthorized', code: 'UNAUTHORIZED' },
+        { success: false, error: 'Не авторизован', code: 'UNAUTHORIZED' },
         { status: 401 }
       );
     }
 
-    // Check user role
-    if (session.user.role !== 'TEACHER' && session.user.role !== 'ADMIN') {
-      return NextResponse.json(
-        { success: false, error: 'Only teachers and admins can create lessons', code: 'UNAUTHORIZED' },
-        { status: 403 }
-      );
-    }
+    // All authenticated users can create lessons
 
     // Parse request body
     const body: CreateLessonRequest = await request.json();
@@ -42,7 +36,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateLes
     // Validate input
     if (!subjectId || !material?.trim()) {
       return NextResponse.json(
-        { success: false, error: 'Subject and material are required', code: 'VALIDATION_ERROR' },
+        { success: false, error: 'Предмет и материал обязательны', code: 'VALIDATION_ERROR' },
         { status: 400 }
       );
     }
@@ -54,7 +48,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateLes
 
     if (!subject) {
       return NextResponse.json(
-        { success: false, error: 'Subject not found', code: 'NOT_FOUND' },
+        { success: false, error: 'Предмет не найден', code: 'NOT_FOUND' },
         { status: 404 }
       );
     }
@@ -70,7 +64,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateLes
         return NextResponse.json(
           {
             success: false,
-            error: `Insufficient wisdom coins. You have ${user?.wisdomCoins || 0}, but need 20.`,
+            error: `Недостаточно монет мудрости. У вас ${user?.wisdomCoins || 0}, требуется 20.`,
             code: 'INSUFFICIENT_FUNDS',
           },
           { status: 400 }
@@ -87,7 +81,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateLes
       return NextResponse.json(
         {
           success: false,
-          error: 'Failed to generate lesson content. Please try again.',
+          error: 'Не удалось сгенерировать содержание урока. Попробуйте снова.',
           code: 'AI_SERVICE_ERROR',
         },
         { status: 500 }
@@ -103,7 +97,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateLes
       return NextResponse.json(
         {
           success: false,
-          error: 'Failed to generate quiz content. Please try again.',
+          error: 'Не удалось сгенерировать тест. Попробуйте снова.',
           code: 'AI_SERVICE_ERROR',
         },
         { status: 500 }
@@ -170,7 +164,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateLes
     return NextResponse.json(
       {
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to create lesson',
+        error: error instanceof Error ? error.message : 'Не удалось создать урок',
         code: 'DATABASE_ERROR',
       },
       { status: 500 }
